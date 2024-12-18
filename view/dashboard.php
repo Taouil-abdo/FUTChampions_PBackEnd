@@ -6,6 +6,12 @@ $rows = $player->getData();
 
 // $image=$player->getData()
 
+///delete
+if(isset($_GET['player_id']) && !empty($_GET['player_id'])){
+    $id=$_GET['player_id'];
+    $player->delete($id);
+}
+
 ?>
 
 <!DOCTYPE html>

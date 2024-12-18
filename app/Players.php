@@ -21,9 +21,26 @@ class Players extends Database {
         return $rows;
     }
 
+    public function delete($player_id){
 
+        $query = "DELETE FROM Players where player_id = $player_id ";
+        $result = $this->conn->query($query);
+        if($result == true){
+            header("Location:dashboard.php");
+
+		}else{
+			echo "Record does not delete try again";
+		    }
+     }
+
+
+
+
+
+
+
+
+
+     
 }
-
-
-
 ?>
