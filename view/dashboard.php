@@ -12,6 +12,16 @@ if(isset($_GET['player_id']) && !empty($_GET['player_id'])){
     $player->delete($id);
 }
 
+// addPLayer
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Pass POST data and FILES for upload
+    $result = $player->addPlayer($_POST, $_FILES);
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>
