@@ -1,5 +1,10 @@
 <?php
+include "../app/Players.php";
 
+$player = new Players();
+$rows = $player->getData();
+
+// $image=$player->getData()
 
 ?>
 
