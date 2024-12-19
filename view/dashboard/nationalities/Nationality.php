@@ -4,20 +4,10 @@ include "../app/Players.php";
 $player = new Players();
 $rows = $player->getData();
 
-// $image=$player->getData()
-
-///delete
-if(isset($_GET['player_id']) && !empty($_GET['player_id'])){
-    $id=$_GET['player_id'];
-    $player->delete($id);
-}
-
-// addPLayer
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Pass POST data and FILES for upload
-    $result = $player->addPlayer($_POST, $_FILES);
-}
+// if(isset($_GET['player_id']) && !empty($_GET['player_id'])){
+//     $id=$_GET['player_id'];
+//     $player->delete($id);
+// }
 
 
 
@@ -183,8 +173,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       foreach($rows as $row){
                   ?>
                     <tr class="border-b">
-                    <td class="py-2 px-4"><img src="<?php echo $row['player_img']; ?>" width="30" alt="Player Image"></td>
-                    <td class="py-2 px-4"><?php echo $row['FullName']; ?></td>
+                        <td class="py-2 px-4"><?php echo $row['player_id']; ?></td>
+                        <td class="py-2 px-4"><?php echo $row['FullName']; ?></td>
                         <td class="py-2 px-4"><?php echo $row['position']; ?></td>
                         <?php if($row['status'] == "principale"){ ?>
                             <td class="py-2 px-4"><span class="py-1 px-2 bg-green-600 rounded-lg text-white"><?php echo $row['status']; ?></span></td>
@@ -194,7 +184,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <td class="py-2 px-4"><?php echo $row['nationality']; ?></td>
                         <td class="py-2 px-4"><?php echo $row['clubName']; ?></td>
                         <td class="py-2 px-4"><?php echo $row['rating']; ?></td>
-
                         <td class="py-2 px-4">
                             <a href="Players.php?player_id=<?php echo $row['player_id']; ?>" class="text-blue-500 hover:underline"><i class="fa-solid fa-pencil"></i></a> |
                             <a href="dashboard.php?player_id=<?php echo $row['player_id']; ?>" class="text-red-500 hover:underline"><i class="fa-solid fa-trash"></i></a>
@@ -208,26 +197,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
             </tbody>
             </table>
+
         </div>
     <!-- </div> -->
     </div>
 
     
-    <div id="form-parent" class="mt-9 ">
+    <div id="form-parent" class="mt-9 hidden">
                 <div id="form-child">
-                    <form id="form" enctype="multipart/form-data" method="POST" class="max-w-md mx-auto shadow-lg rounded-lg p-4 space-y-4"
+                    <form id="form" class="max-w-md mx-auto shadow-lg rounded-lg p-4 space-y-4"
                         style="background-color: rgb(100 100 100 / 72%);height: 35rem;overflow-y: scroll;">
                         <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Player Details</h2>
 
                         <div>
                             <label for="Fullname" class="block text-sm font-medium text-gray-700">Name</label>
-                            <input type="text" id="Fullname" name="FullName" placeholder="Lionel Messi"
+                            <input type="text" id="Fullname" placeholder="Lionel Messi"
                                 class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <span id="errorFullname" class="hidden">errorFullname</span>
                         </div>
 
                         <div class="relative w-full mb-8 border p-1 rounded-lg">
-                            <label for="profileImage" name="profile"class="block mb-3 text-sm font-medium text-gray-900">
+                            <label for="profileImage" class="block mb-3 text-sm font-medium text-gray-900">
                                 Profile Image
                             </label>
                             <div class="flex items-center justify-center w-full">
@@ -236,7 +226,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <p class="mb-2 text-sm text-gray-500">
                                         <span class="font-semibold">Profile Image</span>
                                     </p>
-                                    <input id="profileImage" name="player_img" type="file" accept="image/*" class="hidden" />
+                                    <input id="profileImage" type="file" accept="image/*" class="hidden" />
                                 </label>
                             </div>
                         </div>
@@ -244,7 +234,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="grid grid grid-cols-2 gap-4">
                             <div>
                                 <label for="flag" class="block text-sm font-medium text-gray-700">Flag</label>
-                                <input type="file" id="flag" placeholder="flag" name="flag"
+                                <input type="file" id="flag" placeholder="flag"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorFlag" class="hidden"></span>
                             </div>
@@ -290,7 +280,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div>
                                 <label for="playersStatus" class="block text-sm font-medium text-gray-700">Player's
                                     Status</label>
-                                <select name="status" id="playersStatus"
+                                <select name="playersStatus" id="playersStatus"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     <option value="status">Select Player's Status</option>
                                     <option value="principal">principal</option>
@@ -302,22 +292,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <div>
                             <label for="nationality" class="block text-sm font-medium text-gray-700">Nationality</label>
-                                                        
-                            <input type="number" id="nationality_id" name="nationality_id"  placeholder="Argentina"
+                            
+                            // foreach($nationa)
+                            
+                            <input type="text" id="nationality" placeholder="Argentina"
                                 class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <span id="errorNationality" class="hidden">errorNationality</span>
                         </div>
 
                         <div>
                             <label for="club" class="block text-sm font-medium text-gray-700">Club</label>
-                            <input type="number" id="club" name="club_id" placeholder="Inter Miami"
+                            <input type="text" id="club" placeholder="Inter Miami"
                                 class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <span id="errorClub" class="hidden">errorClub</span>
                         </div>
 
                         <div>
                             <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
-                            <input type="number" id="rating" name="rating" placeholder="93"
+                            <input type="number" id="rating" placeholder="93"
                                 class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <span id="errorRating" class="hidden">errorRating</span>
                         </div>
@@ -326,37 +318,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div>
                                 <label for="pace" class="block text-sm font-medium text-gray-700">Pace</label>
-                                <input type="number" id="pace" name="pace" placeholder="85"
+                                <input type="number" id="pace" placeholder="85"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorPace" class="hidden">errorPace</span>
                             </div>
                             <div>
                                 <label for="shooting" class="block text-sm font-medium text-gray-700">Shooting</label>
-                                <input type="number" id="shooting" name="shooting" placeholder="92"
+                                <input type="number" id="shooting" placeholder="92"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorShooting" class="hidden">errorShooting</span>
                             </div>
                             <div>
                                 <label for="passing" class="block text-sm font-medium text-gray-700">Passing</label>
-                                <input type="number" id="passing" name="passing" placeholder="91"
+                                <input type="number" id="passing" placeholder="91"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorPassing" class="hidden">errorPassing</span>
                             </div>
                             <div>
                                 <label for="dribbling" class="block text-sm font-medium text-gray-700">Dribbling</label>
-                                <input type="number" id="dribbling" name="dribbling" placeholder="95"
+                                <input type="number" id="dribbling" placeholder="95"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorDribbling" class="hidden">errorDribbling</span>
                             </div>
                             <div>
                                 <label for="defending" class="block text-sm font-medium text-gray-700">Defending</label>
-                                <input type="number" id="defending" name="defending" placeholder="35"
+                                <input type="number" id="defending" placeholder="35"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorDefending" class="hidden">errorDefending</span>
                             </div>
                             <div>
                                 <label for="physical" class="block text-sm font-medium text-gray-700">Physical</label>
-                                <input type="number" id="physical" name="physical" placeholder="65"
+                                <input type="number" id="physical" placeholder="65"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorPhysical" class="hidden">errorPhysical</span>
                             </div>
@@ -366,44 +358,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div>
                                 <label for="diving" class="block text-sm font-medium text-gray-700">diving</label>
-                                <input type="number" id="diving" name="diving" placeholder="85"
+                                <input type="number" id="diving" placeholder="85"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorDiving" class="hidden">errorDiving</span>
                             </div>
                             <div>
                                 <label for="handling" class="block text-sm font-medium text-gray-700">handling</label>
-                                <input type="number" id="handling" name="handling" placeholder="92"
+                                <input type="number" id="handling" placeholder="92"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorHandling" class="hidden">errorHandling</span>
                             </div>
                             <div>
                                 <label for="kicking" class="block text-sm font-medium text-gray-700">kicking</label>
-                                <input type="number" id="kicking" name="kicking" placeholder="91"
+                                <input type="number" id="kicking" placeholder="91"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorKicking" class="hidden">errorKicking</span>
                             </div>
                             <div>
                                 <label for="reflexes" class="block text-sm font-medium text-gray-700">reflexes</label>
-                                <input type="number" id="reflexes" name="reflexes" placeholder="95"
+                                <input type="number" id="reflexes" placeholder="95"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorReflexes" class="hidden">errorReflexes</span>
                             </div>
                             <div>
                                 <label for="speed" class="block text-sm font-medium text-gray-700">speed</label>
-                                <input type="number" id="speed" name="speed" placeholder="35"
+                                <input type="number" id="speed" placeholder="35"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorSpeed" class="hidden">errorSpeed</span>
                             </div>
                             <div>
                                 <label for="positioning"
                                     class="block text-sm font-medium text-gray-700">Positioning</label>
-                                <input type="number" id="positioning" name="positioning" placeholder="65"
+                                <input type="number" id="positioning" placeholder="65"
                                     class="w-full mt-1 p-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <span id="errorPositioning" class="hidden">errorPositioning</span>
                             </div>
                         </div>
 
-                        <button type="submit" id="addbtn" name="submit"
+                        <button type="button" id="addbtn"
                             class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
                             add
                         </button>
